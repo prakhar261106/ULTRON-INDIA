@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.env
+.env.*
+!.env.example
+secrets/
+data/raw/
+data/processed/
+*.pkl
+*.joblib
+*.pt
+*.pth
+*.onnx
+.DS_Store
