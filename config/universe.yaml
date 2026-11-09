@@ -1,0 +1,92 @@
+# ULTRON research universe: NIFTY 50 + NIFTY BANK (BANK NIFTY).
+#
+# STATUS: SEED LIST - please verify against the official NSE Indices constituent files
+#         (niftyindices.com) before relying on it.
+#
+# What was checked (web sources, 7 Nov 2026):
+#   * NIFTY 50: 50-name list "as on 19.08.2026"; NSE Indices announced on 10 Aug 2026 that
+#     BSE replaces WIPRO with effect from 30 Sep 2026.
+#   * NIFTY BANK: now 14 stocks (SEBI rule effective 2026). 13 were confirmed from a 10 Aug 2026
+#     market report; the 14th is NOT confirmed and is deliberately not guessed.
+#   * Sector labels are PROJECT-DEFINED groupings, not official NSE classifications.
+#
+# Point-in-time fields:
+#   added   - first date the symbol was a member (null = unknown / before our records)
+#   removed - first date the symbol was NO LONGER a member (null = still a member)
+# Membership history is incomplete (membership_history_verified: false). For past dates the engine
+# raises UNIVERSE_NOT_POINT_IN_TIME so nobody mistakes today's list for history (survivorship bias).
+# Symbol notes: TMPV = Tata Motors Passenger Vehicles (post-demerger); ETERNAL = former Zomato.
+# Prices before a rename/demerger need provider-side adjustment.
+
+membership_history_verified: false
+last_checked: "2026-11-07"
+
+NIFTY50:
+  - {symbol: ADANIENT,   sector: Conglomerate}
+  - {symbol: ADANIPORTS, sector: Services}
+  - {symbol: APOLLOHOSP, sector: Healthcare}
+  - {symbol: ASIANPAINT, sector: Consumer}
+  - {symbol: AXISBANK,   sector: Banks}
+  - {symbol: BAJAJ-AUTO, sector: Auto}
+  - {symbol: BAJFINANCE, sector: Financial Services}
+  - {symbol: BAJAJFINSV, sector: Financial Services}
+  - {symbol: BEL,        sector: Industrials}
+  - {symbol: BHARTIARTL, sector: Telecom}
+  - {symbol: BSE,        sector: Financial Services, added: 2026-09-30}
+  - {symbol: CIPLA,      sector: Healthcare}
+  - {symbol: COALINDIA,  sector: Metals & Mining}
+  - {symbol: DRREDDY,    sector: Healthcare}
+  - {symbol: EICHERMOT,  sector: Auto}
+  - {symbol: ETERNAL,    sector: Consumer}
+  - {symbol: GRASIM,     sector: Construction & Materials}
+  - {symbol: HCLTECH,    sector: IT}
+  - {symbol: HDFCBANK,   sector: Banks}
+  - {symbol: HDFCLIFE,   sector: Financial Services}
+  - {symbol: HEROMOTOCO, sector: Auto, removed: 2025-09-30}
+  - {symbol: HINDALCO,   sector: Metals & Mining}
+  - {symbol: HINDUNILVR, sector: FMCG}
+  - {symbol: ICICIBANK,  sector: Banks}
+  - {symbol: INDIGO,     sector: Services}
+  - {symbol: INFY,       sector: IT}
+  - {symbol: ITC,        sector: FMCG}
+  - {symbol: JIOFIN,     sector: Financial Services}
+  - {symbol: JSWSTEEL,   sector: Metals & Mining}
+  - {symbol: KOTAKBANK,  sector: Banks}
+  - {symbol: LT,         sector: Industrials}
+  - {symbol: M&M,        sector: Auto}
+  - {symbol: MARUTI,     sector: Auto}
+  - {symbol: MAXHEALTH,  sector: Healthcare}
+  - {symbol: NESTLEIND,  sector: FMCG}
+  - {symbol: NTPC,       sector: Power}
+  - {symbol: ONGC,       sector: Oil & Gas}
+  - {symbol: POWERGRID,  sector: Power}
+  - {symbol: RELIANCE,   sector: Oil & Gas}
+  - {symbol: SBILIFE,    sector: Financial Services}
+  - {symbol: SBIN,       sector: Banks}
+  - {symbol: SHRIRAMFIN, sector: Financial Services}
+  - {symbol: SUNPHARMA,  sector: Healthcare}
+  - {symbol: TATACONSUM, sector: FMCG}
+  - {symbol: TATASTEEL,  sector: Metals & Mining}
+  - {symbol: TCS,        sector: IT}
+  - {symbol: TECHM,      sector: IT}
+  - {symbol: TITAN,      sector: Consumer}
+  - {symbol: TMPV,       sector: Auto}
+  - {symbol: TRENT,      sector: Consumer}
+  - {symbol: ULTRACEMCO, sector: Construction & Materials}
+  - {symbol: WIPRO,      sector: IT, removed: 2026-09-30}
+
+BANKNIFTY:
+  - {symbol: AUBANK,     sector: Banks}
+  - {symbol: AXISBANK,   sector: Banks}
+  - {symbol: BANKBARODA, sector: Banks}
+  - {symbol: CANBK,      sector: Banks}
+  - {symbol: FEDERALBNK, sector: Banks}
+  - {symbol: HDFCBANK,   sector: Banks}
+  - {symbol: ICICIBANK,  sector: Banks}
+  - {symbol: IDFCFIRSTB, sector: Banks}
+  - {symbol: INDUSINDBK, sector: Banks}
+  - {symbol: KOTAKBANK,  sector: Banks}
+  - {symbol: PNB,        sector: Banks}
+  - {symbol: SBIN,       sector: Banks}
+  - {symbol: UNIONBANK,  sector: Banks}
+  # 14th constituent: NOT CONFIRMED - add it here from the official NSE Indices file.

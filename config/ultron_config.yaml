@@ -1,0 +1,59 @@
+# ULTRON central configuration (Day 1).
+# Every value can be changed here without touching code. Secrets NEVER go in this file.
+
+market:
+  exchange: NSE
+  timezone: Asia/Kolkata
+  session_open: "09:15"
+  session_close: "15:30"
+  # Trading holidays as YYYY-MM-DD. Left empty on purpose: ULTRON cannot verify the official NSE
+  # holiday list, so you must fill it in (https://www.nseindia.com/resources/exchange-communication-holidays).
+  # An undeclared holiday can make data look "stale" on the next trading morning.
+  holidays: []
+
+timeframes: ["5m", "15m", "1h"]
+
+data_provider:
+  name: null                       # NOT SELECTED YET. Day 1 deliberately has no provider code.
+  credentials_env_vars: []         # e.g. ["DHAN_CLIENT_ID", "DHAN_ACCESS_TOKEN"] - names only, never values
+  require_adjusted_prices: true    # historical prices must be adjusted for splits/bonus issues
+
+data_quality:
+  max_missing_candle_ratio: 0.10   # above this share of missing candles -> data is rejected
+  max_zero_volume_ratio: 0.20
+  max_staleness_bars: 2            # newest completed candle may be at most this many bars old
+  max_unexplained_missing_days: 2  # weekdays without data that are not declared holidays
+
+stock_selection:
+  top_n: 10
+  prediction_horizon: "1d"         # 1d = rest of the current trading session
+  lookback_sessions: 20            # prior sessions used for averages
+  min_sessions: 10                 # fewer prior sessions than this -> symbol excluded
+  atr_period: 14                   # bars
+  momentum_lookback_bars: 20       # bars
+  # --- hard liquidity / quality filters (symbols failing any are excluded) ---
+  min_price_inr: 50.0
+  min_avg_daily_volume: 100000            # shares
+  min_avg_daily_traded_value_inr: 500000000   # 50 crore
+  min_feature_coverage: 0.80       # share of ranking weight that must be computable
+  # --- risk-flag thresholds (flags only, never exclusions) ---
+  gap_flag_pct: 5.0
+  low_relative_volume_flag: 0.5
+  high_volatility_percentile_flag: 0.90
+  # --- ranking weights (normalised automatically; must be >= 0) ---
+  weights:
+    avg_daily_traded_value: 0.15
+    liquidity_bar_value: 0.10
+    relative_volume: 0.15
+    atr_pct: 0.10
+    volatility_pct: 0.10
+    gap_pct: 0.10
+    momentum_pct: 0.10
+    relative_strength_pct: 0.10
+    sector_strength_pct: 0.10
+
+paths:
+  raw_data: data/raw
+  processed_data: data/processed
+  features: data/features
+  logs: logs
