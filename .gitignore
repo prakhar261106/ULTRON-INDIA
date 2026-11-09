@@ -1,15 +1,44 @@
+# ---- Python ----
 __pycache__/
 *.py[cod]
 .ipynb_checkpoints/
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+
+# ---- Secrets and credentials: NEVER commit these ----
 .env
 .env.*
 !.env.example
 secrets/
-data/raw/
-data/processed/
+*.pem
+*.key
+credentials*.json
+*token*.json
+client_secret*.json
+
+# ---- Large data: contents are ignored, the .gitkeep placeholders are kept ----
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+data/features/*
+!data/features/.gitkeep
+
+# ---- Model checkpoints / binary artefacts ----
 *.pkl
 *.joblib
 *.pt
 *.pth
 *.onnx
+*.h5
+*.ckpt
+*.safetensors
+
+# ---- Logs and temporary files ----
+logs/
+*.log
+*.tmp
+tmp/
 .DS_Store
