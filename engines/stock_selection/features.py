@@ -25,7 +25,7 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass, field
 from datetime import date
-from typing import Dict, List, Optional
+from typing import Dict, List, Mapping, Optional
 
 import numpy as np
 import pandas as pd
@@ -59,6 +59,9 @@ class SymbolFeatures:
     current_session: date
     n_prior_sessions: int
     notes: List[str] = field(default_factory=list)
+    # feature name -> reason code, for every feature that could NOT be computed.
+    # An unavailable feature is NaN (never 0) and always has an entry here.
+    missing: Dict[str, str] = field(default_factory=dict)
 
 
 def _f(x) -> float:
@@ -90,6 +93,7 @@ def compute_symbol_features(
     cur = sessions[-1]
     prior_sessions = sessions[:-1][-cfg.lookback_sessions :]
     values: Dict[str, float] = {name: NAN for name in FEATURE_NAMES}
+    missing: Dict[str, str] = {}
     notes: List[str] = []
     last_close = _f(df["close"].iloc[-1])
 
@@ -108,6 +112,8 @@ def compute_symbol_features(
         prior_cum = prior[prior["k"] <= kmax].groupby("date")["volume"].sum()
         if len(prior_cum) > 0 and prior_cum.mean() > 0:
             values["relative_volume"] = _f(cur_df["volume"].sum() / prior_cum.mean())
+        else:
+            missing["relative_volume"] = "NO_PRIOR_VOLUME_AT_THIS_TIME_OF_DAY"
 
         # gap vs previous session close
         prev_day = sessions[-2]
@@ -116,6 +122,8 @@ def compute_symbol_features(
             values["gap_pct"] = _f((float(cur_df["open"].iloc[0]) / prev_close - 1.0) * 100.0)
     else:
         notes.append("no prior sessions available")
+        for name in ("avg_daily_traded_value", "liquidity_bar_value", "relative_volume", "gap_pct"):
+            missing[name] = "NO_PRIOR_SESSIONS"
 
     # ATR% with true range computed inside each session (no overnight gap contamination)
     prev_close_in_session = df.groupby("date")["close"].shift(1)
@@ -125,6 +133,8 @@ def compute_symbol_features(
     ).max(axis=1)
     if len(df) >= cfg.atr_period and last_close > 0:
         values["atr_pct"] = _f(tr.rolling(cfg.atr_period).mean().iloc[-1] / last_close * 100.0)
+    else:
+        missing["atr_pct"] = "INSUFFICIENT_BARS"
 
     # volatility: within-session log returns over the lookback window, daily-equivalent
     window = df[df["date"].isin(list(prior_sessions) + [cur])]
@@ -132,6 +142,8 @@ def compute_symbol_features(
     if len(lr) >= 10:
         bars_per_day = market.session_minutes / tf.minutes
         values["volatility_pct"] = _f(lr.std(ddof=1) * math.sqrt(bars_per_day) * 100.0)
+    else:
+        missing["volatility_pct"] = "INSUFFICIENT_RETURNS"
 
     # momentum and relative strength vs index over the SAME two timestamps
     n = cfg.momentum_lookback_bars
@@ -144,6 +156,20 @@ def compute_symbol_features(
             if pair.notna().all() and pair.iloc[1] > 0:
                 idx_mom = (pair.iloc[0] / pair.iloc[1] - 1.0) * 100.0
                 values["relative_strength_pct"] = _f(values["momentum_pct"] - idx_mom)
+            else:
+                missing["relative_strength_pct"] = "INDEX_BARS_NOT_ALIGNED"
+        else:
+            missing["relative_strength_pct"] = "NO_INDEX_DATA"
+    else:
+        missing["momentum_pct"] = "INSUFFICIENT_BARS"
+        missing["relative_strength_pct"] = "INSUFFICIENT_BARS"
+
+    # Computed later, once every symbol's relative strength is known (needs universe context).
+    missing["sector_strength_pct"] = "PENDING_UNIVERSE_CONTEXT"
+    # Safety net: any NaN feature must carry a reason - nothing is ever missing silently.
+    for name, val in values.items():
+        if math.isnan(val) and name not in missing:
+            missing[name] = "UNAVAILABLE"
 
     return SymbolFeatures(
         symbol=symbol,
@@ -153,4 +179,36 @@ def compute_symbol_features(
         current_session=cur,
         n_prior_sessions=len(prior_sessions),
         notes=notes,
+        missing=missing,
     )
+
+
+def apply_sector_strength(feats: Dict[str, SymbolFeatures], sector_of: Mapping[str, str]) -> None:
+    """Fill ``sector_strength_pct`` in place, or record WHY it is unavailable.
+
+    sector_strength_pct = mean signed relative strength of the symbol's sector members that
+    have a relative strength value (the symbol itself included). It uses UNIVERSE members only;
+    no sector INDEX data is involved (sector indices arrive with the Market Correlation engine).
+
+    Reasons recorded when the value cannot be computed (the value stays NaN, never 0):
+      SECTOR_UNKNOWN                 symbol has no sector label
+      NO_SECTOR_RELATIVE_STRENGTH    no member of the sector has a relative strength value
+                                     (typically: NIFTY 50 candles missing)
+    """
+    by_sector: Dict[str, List[float]] = {}
+    for sym, f in feats.items():
+        rs = f.values["relative_strength_pct"]
+        sec = sector_of.get(sym, "UNKNOWN")
+        if sec != "UNKNOWN" and not math.isnan(rs):
+            by_sector.setdefault(sec, []).append(rs)
+    for sym, f in feats.items():
+        sec = sector_of.get(sym, "UNKNOWN")
+        if sec == "UNKNOWN":
+            f.values["sector_strength_pct"] = NAN
+            f.missing["sector_strength_pct"] = "SECTOR_UNKNOWN"
+        elif sec in by_sector:
+            f.values["sector_strength_pct"] = float(sum(by_sector[sec]) / len(by_sector[sec]))
+            f.missing.pop("sector_strength_pct", None)
+        else:
+            f.values["sector_strength_pct"] = NAN
+            f.missing["sector_strength_pct"] = "NO_SECTOR_RELATIVE_STRENGTH"
