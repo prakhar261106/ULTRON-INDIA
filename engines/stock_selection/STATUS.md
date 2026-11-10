@@ -8,7 +8,7 @@ Engine version 1.0.0 · Contract version 1.0.0 · Report date: 2026-11-07
 - Data validation (13+ checks) and NSE session helpers; logging with secret redaction.
 - Provider-independent `MarketDataAdapter` interface, `UnconfiguredAdapter`, `CsvMarketDataAdapter`.
 - Stock Selection Engine: features, percentile ranking, filters, top-10 shortlist, JSON/CSV export.
-- 86 automated tests, all passing (pandas 2.3.3 and pandas 3.0.6, Python 3.12); Colab notebook executed end-to-end in a sandbox.
+- 96 automated tests, all passing (pandas 2.3.3 and pandas 3.0.6, Python 3.12); Colab notebook executed end-to-end in a sandbox.
 
 ## Incomplete / deliberately not done
 - No live provider (Dhan, Zerodha, ...) — not selected yet; no live-data code exists.
@@ -33,3 +33,4 @@ Engine version 1.0.0 · Contract version 1.0.0 · Report date: 2026-11-07
 
 ## Bug found and fixed during testing
 - Feature-coverage threshold failed on floating-point rounding (0.7999… < 0.8), wrongly excluding every symbol when index data was missing. Fixed with a tolerance; regression covered by `test_missing_index_flags_but_still_ranks`.
+- `sector_strength_pct` showed NaN in notebook Cell 8: the standalone feature function cannot compute it (needs sector peers; the engine always did). Fixed by adding `apply_sector_strength()` (used by both engine and notebook), recording a reason for every unavailable feature, adding the `MISSING_FEATURES` risk flag, and making the ranking explicitly never score a missing value as 0. Covered by `tests/test_missing_features.py` (10 tests; a mutation check confirmed they fail if NaN were turned into 0).
