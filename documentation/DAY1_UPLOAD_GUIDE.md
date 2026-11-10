@@ -31,7 +31,7 @@ engines/stock_selection/samples/sample_input_SYNTHETIC_candles_1h.csv
 engines/stock_selection/samples/sample_output_SYNTHETIC.json
 tests/__init__.py  tests/conftest.py  tests/synthetic_data.py
 tests/test_config_logging_adapter.py  tests/test_data_validation.py
-tests/test_engine_contract.py  tests/test_repo_structure.py  tests/test_stock_selection.py
+tests/test_engine_contract.py  tests/test_repo_structure.py  tests/test_stock_selection.py  tests/test_missing_features.py
 notebooks/day1_foundation_stock_selection.ipynb
 documentation/DAY1_UPLOAD_GUIDE.md
 data/raw/.gitkeep   data/processed/.gitkeep   data/features/.gitkeep
@@ -60,11 +60,11 @@ Run **Cell 1 to Cell 13 from top to bottom** (Runtime -> Run all works). The opt
 | 5 Universe | loads NIFTY 50 + BANK NIFTY | `58 unique symbols (5 duplicates removed)` (count can change with date) |
 | 6 Adapter | refusal + synthetic demo data | `Expected refusal -> No market-data provider...` |
 | 7 Validation | good vs damaged data | `GOOD ... valid: True`, `DAMAGED ... valid: False` |
-| 8 Features | numbers for one stock | table of 9 features |
+| 8 Features | numbers for one stock + its sector peers | table of 9 features with a `status` column (all OK) |
 | 9 Ranking | runs the engine | `eligible: 56 | excluded: 2 | shortlisted: 10` |
 | 10 Shortlist | top 10 + contract JSON | 10 rows, direction NEUTRAL |
 | 11 Exclusions | why 2 stocks were excluded | DEMO-ITC, DEMO-TCS |
-| 12 Tests | runs pytest | `86 passed` (ZIP mode: `85 passed, 1 skipped` - normal), `ALL TESTS PASSED` |
+| 12 Tests | runs pytest | `96 passed` (ZIP mode: `95 passed, 1 skipped` - normal), `ALL TESTS PASSED` |
 | 13 Save | writes 4 result files | paths under `data/processed/stock_selection/` |
 
 The shortlist in this notebook is **SYNTHETIC demo output**, not real stock picks.
