@@ -55,7 +55,7 @@ Each shortlisted stock is an `EngineOutput`: `direction=NEUTRAL`, `score` = comp
 probability of profit), `uncertainty` = 1 - confidence, `supporting_evidence` = every feature value, its
 percentile and weight, `risk_flags`, `data_quality`, `model_status=RULE_BASED`.
 
-Risk flags: `EXTREME_GAP`, `LOW_RELATIVE_VOLUME`, `HIGH_RELATIVE_VOLATILITY`, `DATA_DEGRADED`, `NO_INDEX_DATA`,
+Risk flags: `MISSING_FEATURES` (at least one feature could not be computed; reasons in `metadata.missing_features`), `EXTREME_GAP`, `LOW_RELATIVE_VOLUME`, `HIGH_RELATIVE_VOLATILITY`, `DATA_DEGRADED`, `NO_INDEX_DATA`,
 `FEATURES_FROM_PRIOR_SESSION` (run before the open), `UNIVERSE_NOT_POINT_IN_TIME`, `SYNTHETIC_DATA`.
 
 ## Known limits
@@ -63,6 +63,8 @@ Risk flags: `EXTREME_GAP`, `LOW_RELATIVE_VOLUME`, `HIGH_RELATIVE_VOLATILITY`, `D
 * No bid-ask spread or order-book depth: liquidity is approximated from candles.
 * Traded value uses (H+L+C)/3 x volume, not exchange-reported turnover.
 * Sector groupings are project-defined; sector strength uses only the universe members of each sector.
+* **Unavailable features** are NaN with a recorded reason (never 0). They are left out of that symbol's composite, remaining weights are re-normalised, `confidence` falls with coverage, and the symbol gets `MISSING_FEATURES`. Below 80% weight coverage the symbol is excluded.
+* `sector_strength_pct` = mean relative strength of the sector's universe members (no sector index data is used yet; real sector indices arrive with the Market Correlation engine).
 * Index (NIFTY 50) candles are needed for relative/sector strength; without them coverage drops to 80%.
 * Historical membership is incomplete, so backtests over past dates carry survivorship-bias risk.
 * The NSE holiday list is not built in; fill `market.holidays` in the config.
