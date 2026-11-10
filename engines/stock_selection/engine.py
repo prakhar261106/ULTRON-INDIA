@@ -17,7 +17,8 @@ import pandas as pd
 
 from config.settings import UltronConfig, load_config
 from config.universe import Universe, dedupe_symbols
-from engines.stock_selection.features import FEATURE_NAMES, SymbolFeatures, compute_symbol_features
+from engines.stock_selection.features import (
+    FEATURE_NAMES, SymbolFeatures, apply_sector_strength, compute_symbol_features)
 from engines.stock_selection.ranking import feature_coverage, rank_candidates
 from shared.contracts.engine_output import EngineOutput, Evidence
 from shared.contracts.market_data import MarketDataAdapter, MarketDataError, ProviderNotConfiguredError
@@ -217,17 +218,8 @@ class StockSelectionEngine:
                 continue
             feats[sym] = sf
 
-        # --- sector strength: mean signed relative strength of valid sector members ----
-        rs = {s: f.values["relative_strength_pct"] for s, f in feats.items() if not math.isnan(f.values["relative_strength_pct"])}
-        by_sector: Dict[str, List[float]] = {}
-        for s, v in rs.items():
-            sec = sector_of.get(s, "UNKNOWN")
-            if sec != "UNKNOWN":
-                by_sector.setdefault(sec, []).append(v)
-        for s, f in feats.items():
-            sec = sector_of.get(s, "UNKNOWN")
-            if sec in by_sector:
-                f.values["sector_strength_pct"] = float(sum(by_sector[sec]) / len(by_sector[sec]))
+        # --- sector strength (needs all symbols' relative strength; records reasons if unavailable)
+        apply_sector_strength(feats, sector_of)
 
         # --- hard filters ---------------------------------------------------------------
         passed: Dict[str, SymbolFeatures] = {}
@@ -252,16 +244,27 @@ class StockSelectionEngine:
             cov = feature_coverage(table, weights)
             too_thin = cov.index[cov < cfg.min_feature_coverage - 1e-9]  # tolerance: 0.7999999 must count as 0.8
             for sym in too_thin:
-                exclusions.append(Exclusion(sym, [f"INSUFFICIENT_FEATURES: coverage {cov[sym]:.2f} < {cfg.min_feature_coverage}"]))
+                gone = ", ".join(f"{k}({v})" for k, v in passed[sym].missing.items())
+                exclusions.append(Exclusion(sym, [f"INSUFFICIENT_FEATURES: coverage {cov[sym]:.2f} < {cfg.min_feature_coverage}; missing: {gone}"]))
                 passed.pop(sym)
             table = table.drop(index=list(too_thin))
 
         if table.empty:
-            ranking = pd.DataFrame(columns=["symbol", *FEATURE_NAMES, "composite_score", "feature_coverage", "rank"])
+            ranking = pd.DataFrame(columns=["symbol", *FEATURE_NAMES, "composite_score", "feature_coverage", "rank", "sector", "missing_features"])
             warnings.append("NO_ELIGIBLE_SYMBOLS: nothing passed the data and liquidity filters.")
         else:
             ranking = rank_candidates(table, weights)
             ranking["sector"] = ranking["symbol"].map(lambda s: sector_of.get(s, "UNKNOWN"))
+            ranking["missing_features"] = ranking["symbol"].map(
+                lambda s: "; ".join(f"{k}:{v}" for k, v in passed[s].missing.items()))
+            n_missing = int((ranking["missing_features"] != "").sum())
+            if n_missing:
+                counts: Dict[str, int] = {}
+                for s_ in ranking["symbol"]:
+                    for k in passed[s_].missing:
+                        counts[k] = counts.get(k, 0) + 1
+                warnings.append(f"MISSING_FEATURES: {n_missing} ranked symbols lack at least one feature "
+                                f"{counts}; unavailable features are left out of the composite (re-normalised weights), never scored as 0.")
         if 0 < len(ranking) < 5:
             warnings.append(f"SMALL_RANKING_UNIVERSE: only {len(ranking)} eligible symbols; percentile ranks are coarse.")
         warnings.append("NO_SPREAD_OR_DEPTH_DATA: liquidity is approximated from candles; bid-ask spread and market depth are not used.")
@@ -293,7 +296,9 @@ class StockSelectionEngine:
         for name in FEATURE_NAMES:
             val = row[name]
             if isinstance(val, float) and math.isnan(val):
-                evidence.append(Evidence(factor=name, value=None, detail="not available for this symbol"))
+                why = sf.missing.get(name, "UNAVAILABLE")
+                evidence.append(Evidence(factor=name, value=None,
+                    detail=f"NOT AVAILABLE ({why}); left out of this symbol's composite and weights re-normalised - not treated as zero"))
                 continue
             pct = row.get(f"pct_{name}")
             evidence.append(Evidence(
@@ -312,6 +317,8 @@ class StockSelectionEngine:
             flags.append("HIGH_RELATIVE_VOLATILITY")
         if dq.status.value == "DEGRADED":
             flags.append("DATA_DEGRADED")
+        if sf.missing:
+            flags.append("MISSING_FEATURES")
         if not index_ok:
             flags.append("NO_INDEX_DATA")
         if sf.current_session != as_of.date():
@@ -329,6 +336,7 @@ class StockSelectionEngine:
             model_status=ModelStatus.RULE_BASED,
             metadata={
                 "rank": int(row["rank"]), "n_eligible": n_eligible, "data_label": data_label,
+                "missing_features": dict(sf.missing), "feature_coverage": round(coverage, 4),
                 "current_session": str(sf.current_session), "weights": weights,
                 "note": "Selection only: NEUTRAL direction. confidence = data_quality_score x feature_coverage; "
                         "uncertainty = 1 - confidence. A high rank does not guarantee profit.",
