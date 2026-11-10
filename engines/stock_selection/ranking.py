@@ -39,7 +39,10 @@ def rank_candidates(features: pd.DataFrame, weights: Dict[str, float]) -> pd.Dat
     pct = base.rank(pct=True, method="average")
     available = pct.notna()
     wsum = (available * w).sum(axis=1)
-    composite = (pct.fillna(0.0) * w).sum(axis=1) / wsum.replace(0, np.nan)
+    # A missing feature is NOT scored as zero: it is left out and the remaining weights are
+    # re-normalised. A row with nothing available gets NaN (sorted last), never a fake 0.
+    weighted = pct.mul(w, axis=1).sum(axis=1, skipna=True, min_count=1)
+    composite = weighted / wsum.replace(0, np.nan)
 
     out = features.copy()
     for col in pct.columns:
