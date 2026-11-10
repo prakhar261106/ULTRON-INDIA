@@ -7,7 +7,7 @@
     "timeframe": "15m",
     "prediction_horizon": "1d",
     "direction": "NEUTRAL",
-    "score": 0.7777777777777779,
+    "score": 0.7777777777777778,
     "confidence": 0.8999999999999999,
     "uncertainty": 0.10000000000000009,
     "supporting_evidence": [
@@ -18,7 +18,7 @@
       },
       {
         "factor": "composite_score",
-        "value": 0.7777777777777779,
+        "value": 0.7777777777777778,
         "detail": "weighted average of feature percentile ranks (0-1)"
       },
       {
@@ -69,10 +69,11 @@
       {
         "factor": "sector_strength_pct",
         "value": null,
-        "detail": "not available for this symbol"
+        "detail": "NOT AVAILABLE (SECTOR_UNKNOWN); left out of this symbol's composite and weights re-normalised - not treated as zero"
       }
     ],
     "risk_flags": [
+      "MISSING_FEATURES",
       "SYNTHETIC_DATA"
     ],
     "data_quality": {
@@ -88,6 +89,10 @@
       "rank": 1,
       "n_eligible": 15,
       "data_label": "SYNTHETIC_TEST_DATA",
+      "missing_features": {
+        "sector_strength_pct": "SECTOR_UNKNOWN"
+      },
+      "feature_coverage": 0.9,
       "current_session": "2026-11-06",
       "weights": {
         "avg_daily_traded_value": 0.15,
@@ -111,7 +116,7 @@
     "timeframe": "15m",
     "prediction_horizon": "1d",
     "direction": "NEUTRAL",
-    "score": 0.6925925925925926,
+    "score": 0.6925925925925928,
     "confidence": 0.8999999999999999,
     "uncertainty": 0.10000000000000009,
     "supporting_evidence": [
@@ -122,7 +127,7 @@
       },
       {
         "factor": "composite_score",
-        "value": 0.6925925925925926,
+        "value": 0.6925925925925928,
         "detail": "weighted average of feature percentile ranks (0-1)"
       },
       {
@@ -173,10 +178,11 @@
       {
         "factor": "sector_strength_pct",
         "value": null,
-        "detail": "not available for this symbol"
+        "detail": "NOT AVAILABLE (SECTOR_UNKNOWN); left out of this symbol's composite and weights re-normalised - not treated as zero"
       }
     ],
     "risk_flags": [
+      "MISSING_FEATURES",
       "SYNTHETIC_DATA"
     ],
     "data_quality": {
@@ -192,6 +198,10 @@
       "rank": 2,
       "n_eligible": 15,
       "data_label": "SYNTHETIC_TEST_DATA",
+      "missing_features": {
+        "sector_strength_pct": "SECTOR_UNKNOWN"
+      },
+      "feature_coverage": 0.9,
       "current_session": "2026-11-06",
       "weights": {
         "avg_daily_traded_value": 0.15,
@@ -215,7 +225,7 @@
     "timeframe": "15m",
     "prediction_horizon": "1d",
     "direction": "NEUTRAL",
-    "score": 0.6666666666666667,
+    "score": 0.6666666666666669,
     "confidence": 0.8999999999999999,
     "uncertainty": 0.10000000000000009,
     "supporting_evidence": [
@@ -226,7 +236,7 @@
       },
       {
         "factor": "composite_score",
-        "value": 0.6666666666666667,
+        "value": 0.6666666666666669,
         "detail": "weighted average of feature percentile ranks (0-1)"
       },
       {
@@ -277,10 +287,11 @@
       {
         "factor": "sector_strength_pct",
         "value": null,
-        "detail": "not available for this symbol"
+        "detail": "NOT AVAILABLE (SECTOR_UNKNOWN); left out of this symbol's composite and weights re-normalised - not treated as zero"
       }
     ],
     "risk_flags": [
+      "MISSING_FEATURES",
       "SYNTHETIC_DATA"
     ],
     "data_quality": {
@@ -296,6 +307,10 @@
       "rank": 3,
       "n_eligible": 15,
       "data_label": "SYNTHETIC_TEST_DATA",
+      "missing_features": {
+        "sector_strength_pct": "SECTOR_UNKNOWN"
+      },
+      "feature_coverage": 0.9,
       "current_session": "2026-11-06",
       "weights": {
         "avg_daily_traded_value": 0.15,
@@ -381,11 +396,12 @@
       {
         "factor": "sector_strength_pct",
         "value": null,
-        "detail": "not available for this symbol"
+        "detail": "NOT AVAILABLE (SECTOR_UNKNOWN); left out of this symbol's composite and weights re-normalised - not treated as zero"
       }
     ],
     "risk_flags": [
       "HIGH_RELATIVE_VOLATILITY",
+      "MISSING_FEATURES",
       "SYNTHETIC_DATA"
     ],
     "data_quality": {
@@ -401,6 +417,10 @@
       "rank": 4,
       "n_eligible": 15,
       "data_label": "SYNTHETIC_TEST_DATA",
+      "missing_features": {
+        "sector_strength_pct": "SECTOR_UNKNOWN"
+      },
+      "feature_coverage": 0.9,
       "current_session": "2026-11-06",
       "weights": {
         "avg_daily_traded_value": 0.15,
@@ -424,7 +444,7 @@
     "timeframe": "15m",
     "prediction_horizon": "1d",
     "direction": "NEUTRAL",
-    "score": 0.5740740740740742,
+    "score": 0.5740740740740741,
     "confidence": 0.8999999999999999,
     "uncertainty": 0.10000000000000009,
     "supporting_evidence": [
@@ -435,7 +455,7 @@
       },
       {
         "factor": "composite_score",
-        "value": 0.5740740740740742,
+        "value": 0.5740740740740741,
         "detail": "weighted average of feature percentile ranks (0-1)"
       },
       {
@@ -486,10 +506,11 @@
       {
         "factor": "sector_strength_pct",
         "value": null,
-        "detail": "not available for this symbol"
+        "detail": "NOT AVAILABLE (SECTOR_UNKNOWN); left out of this symbol's composite and weights re-normalised - not treated as zero"
       }
     ],
     "risk_flags": [
+      "MISSING_FEATURES",
       "SYNTHETIC_DATA"
     ],
     "data_quality": {
@@ -505,6 +526,10 @@
       "rank": 5,
       "n_eligible": 15,
       "data_label": "SYNTHETIC_TEST_DATA",
+      "missing_features": {
+        "sector_strength_pct": "SECTOR_UNKNOWN"
+      },
+      "feature_coverage": 0.9,
       "current_session": "2026-11-06",
       "weights": {
         "avg_daily_traded_value": 0.15,
@@ -590,10 +615,11 @@
       {
         "factor": "sector_strength_pct",
         "value": null,
-        "detail": "not available for this symbol"
+        "detail": "NOT AVAILABLE (SECTOR_UNKNOWN); left out of this symbol's composite and weights re-normalised - not treated as zero"
       }
     ],
     "risk_flags": [
+      "MISSING_FEATURES",
       "SYNTHETIC_DATA"
     ],
     "data_quality": {
@@ -609,6 +635,10 @@
       "rank": 6,
       "n_eligible": 15,
       "data_label": "SYNTHETIC_TEST_DATA",
+      "missing_features": {
+        "sector_strength_pct": "SECTOR_UNKNOWN"
+      },
+      "feature_coverage": 0.9,
       "current_session": "2026-11-06",
       "weights": {
         "avg_daily_traded_value": 0.15,
@@ -694,10 +724,11 @@
       {
         "factor": "sector_strength_pct",
         "value": null,
-        "detail": "not available for this symbol"
+        "detail": "NOT AVAILABLE (SECTOR_UNKNOWN); left out of this symbol's composite and weights re-normalised - not treated as zero"
       }
     ],
     "risk_flags": [
+      "MISSING_FEATURES",
       "SYNTHETIC_DATA"
     ],
     "data_quality": {
@@ -713,6 +744,119 @@
       "rank": 7,
       "n_eligible": 15,
       "data_label": "SYNTHETIC_TEST_DATA",
+      "missing_features": {
+        "sector_strength_pct": "SECTOR_UNKNOWN"
+      },
+      "feature_coverage": 0.9,
+      "current_session": "2026-11-06",
+      "weights": {
+        "avg_daily_traded_value": 0.15,
+        "liquidity_bar_value": 0.1,
+        "relative_volume": 0.15,
+        "atr_pct": 0.1,
+        "volatility_pct": 0.1,
+        "gap_pct": 0.1,
+        "momentum_pct": 0.1,
+        "relative_strength_pct": 0.1,
+        "sector_strength_pct": 0.1
+      },
+      "note": "Selection only: NEUTRAL direction. confidence = data_quality_score x feature_coverage; uncertainty = 1 - confidence. A high rank does not guarantee profit."
+    }
+  },
+  {
+    "engine_name": "stock_selection",
+    "engine_version": "1.0.0",
+    "timestamp": "2026-11-06T15:30:00+05:30",
+    "symbol": "STK08",
+    "timeframe": "15m",
+    "prediction_horizon": "1d",
+    "direction": "NEUTRAL",
+    "score": 0.5444444444444445,
+    "confidence": 0.8999999999999999,
+    "uncertainty": 0.10000000000000009,
+    "supporting_evidence": [
+      {
+        "factor": "rank",
+        "value": 8.0,
+        "detail": "rank 8 of 15 eligible symbols"
+      },
+      {
+        "factor": "composite_score",
+        "value": 0.5444444444444445,
+        "detail": "weighted average of feature percentile ranks (0-1)"
+      },
+      {
+        "factor": "sector",
+        "value": "UNKNOWN",
+        "detail": "project-defined sector grouping"
+      },
+      {
+        "factor": "avg_daily_traded_value",
+        "value": 2141291511.905598,
+        "detail": "percentile 0.33 of 15; weight 0.15"
+      },
+      {
+        "factor": "liquidity_bar_value",
+        "value": 77073305.395696,
+        "detail": "percentile 0.33 of 15; weight 0.10"
+      },
+      {
+        "factor": "relative_volume",
+        "value": 1.092836,
+        "detail": "percentile 0.80 of 15; weight 0.15"
+      },
+      {
+        "factor": "atr_pct",
+        "value": 0.335027,
+        "detail": "percentile 0.87 of 15; weight 0.10"
+      },
+      {
+        "factor": "volatility_pct",
+        "value": 1.323718,
+        "detail": "percentile 0.73 of 15; weight 0.10"
+      },
+      {
+        "factor": "gap_pct",
+        "value": 0.502246,
+        "detail": "percentile 0.80 of 15; weight 0.10"
+      },
+      {
+        "factor": "momentum_pct",
+        "value": -0.259906,
+        "detail": "percentile 0.40 of 15; weight 0.10"
+      },
+      {
+        "factor": "relative_strength_pct",
+        "value": 0.186403,
+        "detail": "percentile 0.07 of 15; weight 0.10"
+      },
+      {
+        "factor": "sector_strength_pct",
+        "value": null,
+        "detail": "NOT AVAILABLE (SECTOR_UNKNOWN); left out of this symbol's composite and weights re-normalised - not treated as zero"
+      }
+    ],
+    "risk_flags": [
+      "MISSING_FEATURES",
+      "SYNTHETIC_DATA"
+    ],
+    "data_quality": {
+      "status": "GOOD",
+      "score": 1.0,
+      "n_observations": 625,
+      "last_observation_time": "2026-11-06T15:15:00+05:30",
+      "issues": []
+    },
+    "model_status": "RULE_BASED",
+    "contract_version": "1.0.0",
+    "metadata": {
+      "rank": 8,
+      "n_eligible": 15,
+      "data_label": "SYNTHETIC_TEST_DATA",
+      "missing_features": {
+        "sector_strength_pct": "SECTOR_UNKNOWN"
+      },
+      "feature_coverage": 0.9,
       "current_session": "2026-11-06",
       "weights": {
         "avg_daily_traded_value": 0.15,
@@ -742,8 +886,8 @@
     "supporting_evidence": [
       {
         "factor": "rank",
-        "value": 8.0,
-        "detail": "rank 8 of 15 eligible symbols"
+        "value": 9.0,
+        "detail": "rank 9 of 15 eligible symbols"
       },
       {
         "factor": "composite_score",
@@ -798,115 +942,12 @@
       {
         "factor": "sector_strength_pct",
         "value": null,
-        "detail": "not available for this symbol"
+        "detail": "NOT AVAILABLE (SECTOR_UNKNOWN); left out of this symbol's composite and weights re-normalised - not treated as zero"
       }
     ],
     "risk_flags": [
       "HIGH_RELATIVE_VOLATILITY",
-      "SYNTHETIC_DATA"
-    ],
-    "data_quality": {
-      "status": "GOOD",
-      "score": 1.0,
-      "n_observations": 625,
-      "last_observation_time": "2026-11-06T15:15:00+05:30",
-      "issues": []
-    },
-    "model_status": "RULE_BASED",
-    "contract_version": "1.0.0",
-    "metadata": {
-      "rank": 8,
-      "n_eligible": 15,
-      "data_label": "SYNTHETIC_TEST_DATA",
-      "current_session": "2026-11-06",
-      "weights": {
-        "avg_daily_traded_value": 0.15,
-        "liquidity_bar_value": 0.1,
-        "relative_volume": 0.15,
-        "atr_pct": 0.1,
-        "volatility_pct": 0.1,
-        "gap_pct": 0.1,
-        "momentum_pct": 0.1,
-        "relative_strength_pct": 0.1,
-        "sector_strength_pct": 0.1
-      },
-      "note": "Selection only: NEUTRAL direction. confidence = data_quality_score x feature_coverage; uncertainty = 1 - confidence. A high rank does not guarantee profit."
-    }
-  },
-  {
-    "engine_name": "stock_selection",
-    "engine_version": "1.0.0",
-    "timestamp": "2026-11-06T15:30:00+05:30",
-    "symbol": "STK08",
-    "timeframe": "15m",
-    "prediction_horizon": "1d",
-    "direction": "NEUTRAL",
-    "score": 0.5444444444444444,
-    "confidence": 0.8999999999999999,
-    "uncertainty": 0.10000000000000009,
-    "supporting_evidence": [
-      {
-        "factor": "rank",
-        "value": 9.0,
-        "detail": "rank 9 of 15 eligible symbols"
-      },
-      {
-        "factor": "composite_score",
-        "value": 0.5444444444444444,
-        "detail": "weighted average of feature percentile ranks (0-1)"
-      },
-      {
-        "factor": "sector",
-        "value": "UNKNOWN",
-        "detail": "project-defined sector grouping"
-      },
-      {
-        "factor": "avg_daily_traded_value",
-        "value": 2141291511.905598,
-        "detail": "percentile 0.33 of 15; weight 0.15"
-      },
-      {
-        "factor": "liquidity_bar_value",
-        "value": 77073305.395696,
-        "detail": "percentile 0.33 of 15; weight 0.10"
-      },
-      {
-        "factor": "relative_volume",
-        "value": 1.092836,
-        "detail": "percentile 0.80 of 15; weight 0.15"
-      },
-      {
-        "factor": "atr_pct",
-        "value": 0.335027,
-        "detail": "percentile 0.87 of 15; weight 0.10"
-      },
-      {
-        "factor": "volatility_pct",
-        "value": 1.323718,
-        "detail": "percentile 0.73 of 15; weight 0.10"
-      },
-      {
-        "factor": "gap_pct",
-        "value": 0.502246,
-        "detail": "percentile 0.80 of 15; weight 0.10"
-      },
-      {
-        "factor": "momentum_pct",
-        "value": -0.259906,
-        "detail": "percentile 0.40 of 15; weight 0.10"
-      },
-      {
-        "factor": "relative_strength_pct",
-        "value": 0.186403,
-        "detail": "percentile 0.07 of 15; weight 0.10"
-      },
-      {
-        "factor": "sector_strength_pct",
-        "value": null,
-        "detail": "not available for this symbol"
-      }
-    ],
-    "risk_flags": [
+      "MISSING_FEATURES",
       "SYNTHETIC_DATA"
     ],
     "data_quality": {
@@ -922,6 +963,10 @@
       "rank": 9,
       "n_eligible": 15,
       "data_label": "SYNTHETIC_TEST_DATA",
+      "missing_features": {
+        "sector_strength_pct": "SECTOR_UNKNOWN"
+      },
+      "feature_coverage": 0.9,
       "current_session": "2026-11-06",
       "weights": {
         "avg_daily_traded_value": 0.15,
@@ -1007,10 +1052,11 @@
       {
         "factor": "sector_strength_pct",
         "value": null,
-        "detail": "not available for this symbol"
+        "detail": "NOT AVAILABLE (SECTOR_UNKNOWN); left out of this symbol's composite and weights re-normalised - not treated as zero"
       }
     ],
     "risk_flags": [
+      "MISSING_FEATURES",
       "SYNTHETIC_DATA"
     ],
     "data_quality": {
@@ -1026,6 +1072,10 @@
       "rank": 10,
       "n_eligible": 15,
       "data_label": "SYNTHETIC_TEST_DATA",
+      "missing_features": {
+        "sector_strength_pct": "SECTOR_UNKNOWN"
+      },
+      "feature_coverage": 0.9,
       "current_session": "2026-11-06",
       "weights": {
         "avg_daily_traded_value": 0.15,
@@ -1041,4 +1091,4 @@
       "note": "Selection only: NEUTRAL direction. confidence = data_quality_score x feature_coverage; uncertainty = 1 - confidence. A high rank does not guarantee profit."
     }
   }
-]
+      ]
